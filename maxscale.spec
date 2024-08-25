@@ -2,7 +2,6 @@ Name: maxscale
 Version: 21.06.17
 Release: 2%{?dist}
 Summary: Prototype Package of MariaDB MaxScale
-Group: Applications/System
 License: GPLv2+
 URL: https://www.mariadb.com
 
