@@ -1,13 +1,14 @@
-Name: maxscale
+Name:    maxscale
 Version: 21.06.17
 Release: 2%{?dist}
-Summary: Prototype Package of MariaDB MaxScale
+
+Summary: Database proxy for MariaDB Server
 License: GPLv2+
-URL: https://www.mariadb.com
+URL:     https://www.mariadb.com
 
-Source: https://mdbe-ci-repo.mariadb.net/public/Maxscale/21.06-markusjm-src/sourcetar/maxscale-21.06.17-Source.tar.gz
+Source:  https://mdbe-ci-repo.mariadb.net/public/Maxscale/21.06-markusjm-src/sourcetar/maxscale-21.06.17-Source.tar.gz
 
-Patch0: rpath.patch
+Patch0:  rpath.patch
 
 # Core MaxScale dependencies
 BuildRequires: boost-devel
