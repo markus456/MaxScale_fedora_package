@@ -91,10 +91,10 @@ mkdir -p %{buildroot}%{_localstatedir}/log/maxscale
 
 %{_unitdir}/maxscale.service
 
-%{_sysconfdir}/maxscale.cnf.template
+%config(noreplace) %{_sysconfdir}/maxscale.cnf.template
 
 %{_sysconfdir}/ld.so.conf.d/maxscale.conf
-%{_sysconfdir}/prelink.conf.d/maxscale.conf
+%config(noreplace) %{_sysconfdir}/prelink.conf.d/maxscale.conf
 
 %{_sysconfdir}/logrotate.d/maxscale_logrotate
 %{_localstatedir}/log/maxscale
