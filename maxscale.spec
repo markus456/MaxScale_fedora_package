@@ -6,7 +6,7 @@ Summary: Database proxy for MariaDB Server
 License: GPLv2+
 URL:     https://www.mariadb.com
 
-Source:  https://mdbe-ci-repo.mariadb.net/public/Maxscale/21.06-markusjm-src/sourcetar/maxscale-21.06.17-Source.tar.gz
+Source:  https://mdbe-ci-repo.mariadb.net/public/Maxscale/21.06-markusjm-src/sourcetar/maxscale-%{version}-Source.tar.gz
 
 Patch0:  rpath.patch
 
@@ -47,7 +47,7 @@ by decoupling it from underlying database infrastructure.
 
 
 %prep
-%setup -n maxscale-21.06.17-Source
+%setup -n maxscale-%{version}-Source
 
 %patch -P0 -p1
 
