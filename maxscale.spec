@@ -75,6 +75,9 @@ export CFLAGS CXXFLAGS
 rm %{buildroot}%{_sysconfdir}/init/maxscale.conf
 rm %{buildroot}%{_sysconfdir}/init.d/maxscale
 
+# Create a directory for the logrotate log
+mkdir -p %{buildroot}%{_localstatedir}/log/maxscale
+
 %check
 %ctest
 
@@ -91,8 +94,10 @@ rm %{buildroot}%{_sysconfdir}/init.d/maxscale
 %{_sysconfdir}/maxscale.cnf.template
 
 %{_sysconfdir}/ld.so.conf.d/maxscale.conf
-%{_sysconfdir}/logrotate.d/maxscale_logrotate
 %{_sysconfdir}/prelink.conf.d/maxscale.conf
+
+%{_sysconfdir}/logrotate.d/maxscale_logrotate
+%{_localstatedir}/log/maxscale
 
 %{_libdir}/maxscale
 %{_datadir}/maxscale
