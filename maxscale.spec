@@ -11,14 +11,35 @@ Source: https://mdbe-ci-repo.mariadb.net/public/Maxscale/21.06-markusjm-src/sour
 Patch0: rpath.patch
 
 # Core MaxScale dependencies
-BuildRequires: make cmake gcc-c++ systemd systemd-devel glibc-devel tcl tcl-devel libuuid-devel
-BuildRequires: pcre2-devel jansson-devel libmicrohttpd-devel boost-devel librdkafka-devel
-BuildRequires: openssl openssl-devel sqlite sqlite-devel gnutls-devel krb5-devel libxml2-devel
-BuildRequires: gnutls-devel libgcrypt-devel pam-devel libcurl-devel libatomic
-BuildRequires: npm
+BuildRequires: boost-devel
+BuildRequires: cmake
+BuildRequires: gcc-c++
+BuildRequires: glibc-devel
+BuildRequires: gnutls-devel
+BuildRequires: gnutls-devel
+BuildRequires: jansson-devel
+BuildRequires: krb5-devel
+BuildRequires: libatomic
+BuildRequires: libcurl-devel
+BuildRequires: libgcrypt-devel
+BuildRequires: libmicrohttpd-devel
+BuildRequires: librdkafka-devel
+BuildRequires: libuuid-devel
+BuildRequires: libxml2-devel
+BuildRequires: make
+BuildRequires: openssl
+BuildRequires: openssl-devel
+BuildRequires: pam-devel
+BuildRequires: pcre2-devel
+BuildRequires: sqlite
+BuildRequires: sqlite-devel
+BuildRequires: systemd
+BuildRequires: systemd-devel
+BuildRequires: tcl
+BuildRequires: tcl-devel
 
 # GUI and MaxCtrl
-BuildRequires: nodejs
+BuildRequires: nodejs npm
 
 # For dbfwfilter (21.06 only)
 BuildRequires: bison flex
@@ -64,20 +85,19 @@ rm %{buildroot}/etc/init.d/maxscale
 
 
 %files
-%{_sysconfdir}/ld.so.conf.d/maxscale.conf
-%{_sysconfdir}/logrotate.d/maxscale_logrotate
-%{_sysconfdir}/maxscale.cnf.template
-%{_sysconfdir}/prelink.conf.d/maxscale.conf
-
-%{_bindir}/dbfwchk
-%{_bindir}/maxkeys
-%{_bindir}/maxpasswd
-%{_bindir}/maxscale
-%{_bindir}/maxscale_generate_support_info.py
-
+%{_bindir}/{maxscale,maxctrl,maxkeys,maxpasswd,maxscale_generate_support_info.py}
 %{_mandir}/man1/maxscale.1.gz
 
+# Part of dbfwfilter (21.06 only)
+%{_bindir}/dbfwchk
+
 %{_unitdir}/maxscale.service
+
+%{_sysconfdir}/maxscale.cnf.template
+
+%{_sysconfdir}/ld.so.conf.d/maxscale.conf
+%{_sysconfdir}/logrotate.d/maxscale_logrotate
+%{_sysconfdir}/prelink.conf.d/maxscale.conf
 
 %dir %{_libdir}/maxscale
 %{_libdir}/maxscale/*
