@@ -1,0 +1,36 @@
+From 8775905d79a1550a358228bd1a1e42a91dd7a6bf Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Markus=20M=C3=A4kel=C3=A4?= <markus.makela@mariadb.com>
+Date: Fri, 23 Aug 2024 15:21:20 +0300
+Subject: [PATCH] Fix CMake custom rpaths
+
+The paths are supposed to be delimited by semicolons and the colon made
+them an invalid rpath.
+---
+ cmake/rpath.cmake                               | 2 +-
+ server/modules/filter/hintfilter/CMakeLists.txt | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/cmake/rpath.cmake b/cmake/rpath.cmake
+index 2d90a41a240..83333703af5 100644
+--- a/cmake/rpath.cmake
++++ b/cmake/rpath.cmake
+@@ -2,7 +2,7 @@ if(PACKAGE AND TARBALL)
+   set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+   set(CMAKE_INSTALL_RPATH "$ORIGIN/../${CMAKE_INSTALL_LIBDIR}/maxscale" CACHE PATH "" FORCE)
+ else()
+-  set(CMAKE_INSTALL_RPATH ${CMAKE_INSTALL_RPATH}:${CMAKE_INSTALL_PREFIX}/${MAXSCALE_LIBDIR})
++  set(CMAKE_INSTALL_RPATH ${CMAKE_INSTALL_RPATH};${CMAKE_INSTALL_PREFIX}/${MAXSCALE_LIBDIR})
+ endif()
+ 
+ 
+diff --git a/server/modules/filter/hintfilter/CMakeLists.txt b/server/modules/filter/hintfilter/CMakeLists.txt
+index f429ebac336..a543e9dbfab 100644
+--- a/server/modules/filter/hintfilter/CMakeLists.txt
++++ b/server/modules/filter/hintfilter/CMakeLists.txt
+@@ -1,5 +1,5 @@
+ add_library(hintfilter SHARED hintfilter.cc hintparser.cc)
+-set_target_properties(hintfilter PROPERTIES INSTALL_RPATH ${CMAKE_INSTALL_RPATH}:${MAXSCALE_LIBDIR} VERSION "1.0.0" LINK_FLAGS -Wl,-z,defs)
++set_target_properties(hintfilter PROPERTIES VERSION "1.0.0" LINK_FLAGS -Wl,-z,defs)
+ target_link_libraries(hintfilter maxscale-common)
+ install_module(hintfilter core)
+ 
