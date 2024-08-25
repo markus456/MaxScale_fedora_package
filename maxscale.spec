@@ -1,6 +1,6 @@
 Name:    maxscale
 Version: 21.06.17
-Release: 2%{?dist}
+Release: 3%{?dist}
 
 Summary: Database proxy for MariaDB Server
 License: GPLv2+
@@ -104,6 +104,9 @@ mkdir -p %{buildroot}%{_localstatedir}/log/maxscale
 
 
 %changelog
+* Sun Aug 25 2024 Michal Schorm <mschorm@redhat.com> - 21.06.17-3
+- Bump release for rebuild
+
 * Sat Aug 24 2024 Michal Schorm <mschorm@redhat.com> - 21.06.17-2
 - FTBFS fixes
 
