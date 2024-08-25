@@ -47,8 +47,11 @@ BuildRequires: bison flex
 # MaxCtrl also needs Node.js at runtime
 Requires: nodejs
 
+
 %description
-MariaDB MaxScale
+Database proxy that extends the high availability, scalability, and security
+of MariaDB Server while at the same time simplifying application development
+by decoupling it from underlying database infrastructure.
 
 
 %prep
