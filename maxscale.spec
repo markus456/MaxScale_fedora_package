@@ -11,12 +11,9 @@ Source:  https://mdbe-ci-repo.mariadb.net/public/Maxscale/21.06-markusjm-src/sou
 Patch0:  rpath.patch
 
 # Core MaxScale dependencies
+BuildRequires: cmake gcc-c++
+
 BuildRequires: boost-devel
-BuildRequires: cmake
-BuildRequires: gcc-c++
-BuildRequires: glibc-devel
-BuildRequires: gnutls-devel
-BuildRequires: gnutls-devel
 BuildRequires: jansson-devel
 BuildRequires: krb5-devel
 BuildRequires: libatomic
@@ -26,16 +23,11 @@ BuildRequires: libmicrohttpd-devel
 BuildRequires: librdkafka-devel
 BuildRequires: libuuid-devel
 BuildRequires: libxml2-devel
-BuildRequires: make
-BuildRequires: openssl
 BuildRequires: openssl-devel
 BuildRequires: pam-devel
 BuildRequires: pcre2-devel
-BuildRequires: sqlite
 BuildRequires: sqlite-devel
-BuildRequires: systemd
 BuildRequires: systemd-devel
-BuildRequires: tcl
 BuildRequires: tcl-devel
 
 # GUI and MaxCtrl
