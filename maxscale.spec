@@ -72,8 +72,8 @@ export CFLAGS CXXFLAGS
 %cmake_install
 
 # Fedora use systemd, no need for init script
-rm %{buildroot}/etc/init/maxscale.conf
-rm %{buildroot}/etc/init.d/maxscale
+rm %{buildroot}%{_sysconfdir}/init/maxscale.conf
+rm %{buildroot}%{_sysconfdir}/init.d/maxscale
 
 %check
 %ctest
@@ -94,11 +94,8 @@ rm %{buildroot}/etc/init.d/maxscale
 %{_sysconfdir}/logrotate.d/maxscale_logrotate
 %{_sysconfdir}/prelink.conf.d/maxscale.conf
 
-%dir %{_libdir}/maxscale
-%{_libdir}/maxscale/*
-
-%dir %{_datadir}/maxscale
-%{_datadir}/maxscale/*
+%{_libdir}/maxscale
+%{_datadir}/maxscale
 
 
 %changelog
