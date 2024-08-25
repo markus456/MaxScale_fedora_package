@@ -47,7 +47,7 @@ by decoupling it from underlying database infrastructure.
 
 
 %prep
-%setup -n maxscale-%{version}-Source
+%setup -q -n maxscale-%{version}-Source
 
 %patch -P0 -p1
 
