@@ -2,3 +2,7 @@
 addFilter(r'no-manual-page-for-binary')
 
 addFilter(r'devel-file-in-non-devel-package /usr/lib64/maxscale')
+
+# The call to SSL_CTX_set_cipher_list() is only done if a custom cipher list is
+# configured by the user.
+addFilter(r'crypto-policy-non-compliance-openssl /usr/lib64/maxscale/libmaxscale-common.so')
