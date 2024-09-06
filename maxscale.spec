@@ -1,14 +1,12 @@
 Name:    maxscale
 Version: 21.06.17
-Release: 3%{?dist}
+Release: 4%{?dist}
 
 Summary: Database proxy for MariaDB Server
 License: GPLv2+
 URL:     https://www.mariadb.com
 
-Source:  https://mdbe-ci-repo.mariadb.net/public/Maxscale/21.06-markusjm-src/sourcetar/maxscale-%{version}-Source.tar.gz
-
-Patch0:  rpath.patch
+Source:  https://mdbe-ci-repo.mariadb.net/public/Maxscale/21.06-Aug-28/sourcetar/maxscale-%{version}-Source.tar.gz
 
 # Core MaxScale dependencies
 BuildRequires: cmake gcc-c++
@@ -39,6 +37,9 @@ BuildRequires: bison flex
 # MaxCtrl also needs Node.js at runtime
 Requires: nodejs
 
+# MaxScale installs a logrotate config file and thus needs a dependency on logrotate, otherwise rpmlint will
+# warn about the lack of it.
+Requires: logrotate
 
 %description
 Database proxy that extends the high availability, scalability, and security
@@ -48,8 +49,6 @@ by decoupling it from underlying database infrastructure.
 
 %prep
 %setup -q -n maxscale-%{version}-Source
-
-%patch -P0 -p1
 
 
 %build
@@ -78,12 +77,20 @@ rm %{buildroot}%{_sysconfdir}/init.d/maxscale
 # Create a directory for the logrotate log
 mkdir -p %{buildroot}%{_localstatedir}/log/maxscale
 
+# Rename the logrotate file to comply with rpmlint expectations.
+mv %{buildroot}%{_sysconfdir}/logrotate.d/maxscale_logrotate %{buildroot}%{_sysconfdir}/logrotate.d/maxscale
+
+# The support report generation script is not necessary and if it was, it would need Python3 as a
+# dependency. Since maxctrl is capable of generating reports with 'maxctrl create report', the script isn't
+# absolutely necessary.
+rm -f %{buildroot}%{_bindir}/maxscale_generate_support_info.py
+
 %check
 %ctest
 
 
 %files
-%{_bindir}/{maxscale,maxctrl,maxkeys,maxpasswd,maxscale_generate_support_info.py}
+%{_bindir}/{maxscale,maxctrl,maxkeys,maxpasswd}
 %{_mandir}/man1/maxscale.1.gz
 
 # Part of dbfwfilter (21.06 only)
@@ -96,7 +103,7 @@ mkdir -p %{buildroot}%{_localstatedir}/log/maxscale
 %{_sysconfdir}/ld.so.conf.d/maxscale.conf
 %config(noreplace) %{_sysconfdir}/prelink.conf.d/maxscale.conf
 
-%{_sysconfdir}/logrotate.d/maxscale_logrotate
+%config(noreplace) %{_sysconfdir}/logrotate.d/maxscale
 %{_localstatedir}/log/maxscale
 
 %{_libdir}/maxscale
@@ -104,6 +111,12 @@ mkdir -p %{buildroot}%{_localstatedir}/log/maxscale
 
 
 %changelog
+* Wed Aug 28 2024  Markus Mäkelä <markus.makela@mariadb.com> - 21.06.17-4
+- Update sources and remove the patch
+- Added the missing dependency on logrotate and renamed the config files to comply with the expected format
+- Removed the installation of maxscale_generate_support_info.py as it would require Python 3
+- Bumped release
+
 * Sun Aug 25 2024 Michal Schorm <mschorm@redhat.com> - 21.06.17-3
 - Bump release for rebuild
 
