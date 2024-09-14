@@ -1,12 +1,13 @@
 Name:    maxscale
 Version: 21.06.17
-Release: 4%{?dist}
+Release: 5%{?dist}
 
 Summary: Database proxy for MariaDB Server
 License: GPLv2+
 URL:     https://www.mariadb.com
 
-Source:  https://mdbe-ci-repo.mariadb.net/public/Maxscale/21.06-Aug-28/sourcetar/maxscale-%{version}-Source.tar.gz
+Source:  https://dlm.mariadb.com/MaxScale/%{version}/sourcetar/maxscale-%{version}-Source.tar.gz
+Patch0:  remove-dbfwfilter.patch
 
 # Core MaxScale dependencies
 BuildRequires: cmake gcc-c++
@@ -31,9 +32,6 @@ BuildRequires: tcl-devel
 # GUI and MaxCtrl
 BuildRequires: nodejs npm
 
-# For dbfwfilter (21.06 only)
-BuildRequires: bison flex
-
 # MaxCtrl also needs Node.js at runtime
 Requires: nodejs
 
@@ -50,6 +48,7 @@ by decoupling it from underlying database infrastructure.
 %prep
 %setup -q -n maxscale-%{version}-Source
 
+%patch -P0 -p1
 
 %build
 # mariadb-connector-c and test_mxb_string cause warnings to be emitted during link-time optimization. The 3.2
@@ -62,7 +61,7 @@ export CFLAGS CXXFLAGS
 # The -DBUILD_CDC=N disables the CDC protocol and the avrorouter module, the latter of which requires
 # libraries that aren't available in the system repositories. The CDC protocol itself is useless without it so
 # it's better to disable them both.
-%cmake -DBUNDLE=N -DBUILD_TOOLS=N -DBUILD_CDC=N -DBUILD_MAXCTRL=N
+%cmake -DBUNDLE=N -DBUILD_TOOLS=N -DBUILD_CDC=N
 
 %cmake_build
 
@@ -85,6 +84,16 @@ mv %{buildroot}%{_sysconfdir}/logrotate.d/maxscale_logrotate %{buildroot}%{_sysc
 # absolutely necessary.
 rm -f %{buildroot}%{_bindir}/maxscale_generate_support_info.py
 
+# The prelink script is also not needed as MaxCtrl uses the system nodejs but
+# MaxScale 21.06.17 still has it. In MaxScale 21.06.18 this file no longer
+# exists.
+rm -f %{buildroot}%{_sysconfdir}/prelink.conf.d/maxscale.conf
+
+# https://jira.mariadb.org/browse/MXS-5264
+# The maxctrl file gets installed with the wrong 0555 permissions instead of the
+# normal 0755 permissions.
+chmod 0755 %{buildroot}%{_bindir}/maxctrl
+
 %check
 %ctest
 
@@ -92,16 +101,15 @@ rm -f %{buildroot}%{_bindir}/maxscale_generate_support_info.py
 %files
 %{_bindir}/{maxscale,maxctrl,maxkeys,maxpasswd}
 %{_mandir}/man1/maxscale.1.gz
-
-# Part of dbfwfilter (21.06 only)
-%{_bindir}/dbfwchk
+%{_mandir}/man1/maxctrl.1.gz
+%{_mandir}/man1/maxkeys.1.gz
+%{_mandir}/man1/maxpasswd.1.gz
 
 %{_unitdir}/maxscale.service
 
 %config(noreplace) %{_sysconfdir}/maxscale.cnf.template
 
 %{_sysconfdir}/ld.so.conf.d/maxscale.conf
-%config(noreplace) %{_sysconfdir}/prelink.conf.d/maxscale.conf
 
 %config(noreplace) %{_sysconfdir}/logrotate.d/maxscale
 %{_localstatedir}/log/maxscale
@@ -111,6 +119,13 @@ rm -f %{buildroot}%{_bindir}/maxscale_generate_support_info.py
 
 
 %changelog
+* Sat Sep 14 2024  Markus Mäkelä <markus.makela@mariadb.com> - 21.06.17-5
+- Update sources to the official 21.06.17 release
+- Removed -DBUILD_MAXCTRL=N as it should be built now
+- Removed the prelink config file, it's no longer needed for maxctrl
+- Added installation of missing manual pages
+- Removed dbfwfilter from the builds as it is deprecated in MaxScale 21.06 and is removed in MaxScale 22.08
+
 * Wed Aug 28 2024  Markus Mäkelä <markus.makela@mariadb.com> - 21.06.17-4
 - Update sources and remove the patch
 - Added the missing dependency on logrotate and renamed the config files to comply with the expected format
