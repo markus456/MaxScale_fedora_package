@@ -1,6 +1,6 @@
 Name:    maxscale
 Version: 21.06.17
-Release: 5%{?dist}
+Release: 6%{?dist}
 
 Summary: Database proxy for MariaDB Server
 License: GPLv2+
