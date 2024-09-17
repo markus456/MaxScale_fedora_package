@@ -39,6 +39,9 @@ Requires: nodejs
 # warn about the lack of it.
 Requires: logrotate
 
+# Requires for the systemd service
+%{?systemd_requires}
+
 %description
 Database proxy that extends the high availability, scalability, and security
 of MariaDB Server while at the same time simplifying application development
@@ -97,6 +100,12 @@ chmod 0755 %{buildroot}%{_bindir}/maxctrl
 %check
 %ctest
 
+%post
+%systemd_post maxscale.service
+%preun
+%systemd_preun maxscale.service
+%postun
+%systemd_postun_with_restart maxscale.service
 
 %files
 %{_bindir}/{maxscale,maxctrl,maxkeys,maxpasswd}
