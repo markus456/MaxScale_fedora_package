@@ -1,0 +1,12 @@
+diff --git a/server/modules/filter/CMakeLists.txt b/server/modules/filter/CMakeLists.txt
+index df5128bf05..9d38a06e19 100644
+--- a/server/modules/filter/CMakeLists.txt
++++ b/server/modules/filter/CMakeLists.txt
+@@ -1,7 +1,6 @@
+ add_subdirectory(binlogfilter)
+ add_subdirectory(cache)
+ add_subdirectory(ccrfilter)
+-add_subdirectory(dbfwfilter)
+ add_subdirectory(hintfilter)
+ add_subdirectory(insertstream)
+ add_subdirectory(luafilter)
