@@ -131,24 +131,4 @@ chmod 0755 %{buildroot}%{_bindir}/maxctrl
 
 
 %changelog
-* Sat Sep 14 2024  Markus Mäkelä <markus.makela@mariadb.com> - 21.06.17-5
-- Update sources to the official 21.06.17 release
-- Removed -DBUILD_MAXCTRL=N as it should be built now
-- Removed the prelink config file, it's no longer needed for maxctrl
-- Added installation of missing manual pages
-- Removed dbfwfilter from the builds as it is deprecated in MaxScale 21.06 and is removed in MaxScale 22.08
-
-* Wed Aug 28 2024  Markus Mäkelä <markus.makela@mariadb.com> - 21.06.17-4
-- Update sources and remove the patch
-- Added the missing dependency on logrotate and renamed the config files to comply with the expected format
-- Removed the installation of maxscale_generate_support_info.py as it would require Python 3
-- Bumped release
-
-* Sun Aug 25 2024 Michal Schorm <mschorm@redhat.com> - 21.06.17-3
-- Bump release for rebuild
-
-* Sat Aug 24 2024 Michal Schorm <mschorm@redhat.com> - 21.06.17-2
-- FTBFS fixes
-
-* Fri Aug 23 2024 Markus Mäkelä <markus.makela@mariadb.com>
-- Initial version
+%autochangelog
