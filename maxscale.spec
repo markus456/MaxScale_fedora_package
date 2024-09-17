@@ -125,6 +125,9 @@ chmod 0755 %{buildroot}%{_bindir}/maxctrl
 
 %{_libdir}/maxscale
 %{_datadir}/maxscale
+%license %{_datadir}/maxscale/LICENSE.TXT
+%license %{_datadir}/maxscale/LICENSE-THIRDPARTY.TXT
+%license %{_datadir}/maxscale/COPYRIGHT
 
 
 %changelog
