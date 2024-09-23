@@ -1,0 +1,24 @@
+diff --git a/maxgui/vue.config.js b/maxgui/vue.config.js
+index e8cbe88ba49265205a126b625e1cad9c6bcaac29..c7471089a0502f4da702551b8a4f700e9c6f7267 100644
+--- a/maxgui/vue.config.js
++++ b/maxgui/vue.config.js
+@@ -28,6 +28,19 @@ module.exports = {
+         const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
+         types.forEach(type => addStyleResource(config.module.rule('scss').oneOf(type)))
+         config.module.rule('js').exclude.add(/\.worker\.js$/)
++
++        // Clear existing rules for fonts to avoid conflicts
++        config.module.rules.delete('fonts')
++        config.module
++            .rule('fonts')
++            .test(/\.(woff2?|ttf)(\?.*)?$/i)
++            .use('url-loader')
++            .loader('url-loader')
++            .options({
++                limit: 10000000, // use a large value .i.e 10MB to inline everything
++            })
++            .end()
++
+         config.resolve.alias.set('@tests', path.resolve(__dirname, 'tests'))
+ 
+         config.resolve.alias.set(

@@ -8,6 +8,7 @@ URL:     https://www.mariadb.com
 
 Source:  https://dlm.mariadb.com/MaxScale/%{version}/sourcetar/maxscale-%{version}-Source.tar.gz
 Patch0:  remove-dbfwfilter.patch
+Patch1:  inline-fonts.patch
 
 # Core MaxScale dependencies
 BuildRequires: cmake gcc-c++
@@ -52,6 +53,7 @@ by decoupling it from underlying database infrastructure.
 %setup -q -n maxscale-%{version}-Source
 
 %patch -P0 -p1
+%patch -P1 -p1
 
 %build
 # mariadb-connector-c and test_mxb_string cause warnings to be emitted during link-time optimization. The 3.2
