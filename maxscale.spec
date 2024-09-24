@@ -3,7 +3,7 @@ Version: 21.06.17
 Release: 6%{?dist}
 
 Summary: Database proxy for MariaDB Server
-License: GPLv2+
+License: (AFL-2.1 OR BSD-3-Clause) AND (BSD-3-Clause OR GPL-2.0-only) AND (MIT OR Apache-2.0) AND (MIT OR CC0-1.0) AND (WTFPL OR MIT) AND 0BSD AND Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND CC-BY-3.0 AND CC-BY-4.0 AND CC0-1.0 AND GPL-2.0-or-later AND ISC AND LGPL-2.1-only AND MIT AND MPL-2.0 AND PSF-2.0 AND Unlicense AND Zlib AND blessing
 URL:     https://www.mariadb.com
 
 Source:  https://dlm.mariadb.com/MaxScale/%{version}/sourcetar/maxscale-%{version}-Source.tar.gz
